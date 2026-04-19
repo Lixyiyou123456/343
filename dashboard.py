@@ -3,7 +3,7 @@
 
 """
 PySide6 仪表板界面
-现代化仪表板设计示例
+现代化仪表板设计示例 - 舆情监控专用
 """
 
 import sys
@@ -19,7 +19,7 @@ from PySide6.QtGui import QFont, QPalette, QColor, QAction, QIcon
 
 
 class Dashboard(QMainWindow):
-    """现代化仪表板界面"""
+    """现代化仪表板界面 - 舆情监控专用"""
     
     def __init__(self):
         super().__init__()
@@ -32,7 +32,7 @@ class Dashboard(QMainWindow):
     def setup_ui(self):
         """设置UI界面"""
         # 设置窗口属性
-        self.setWindowTitle("现代化仪表板")
+        self.setWindowTitle("智言空间 - 现代化仪表板")
         self.setGeometry(100, 100, 1400, 900)
         
         # 应用现代样式
@@ -100,7 +100,7 @@ class Dashboard(QMainWindow):
         layout = QHBoxLayout(top_bar)
         
         # 应用标题
-        title_label = QLabel("📊 数据分析仪表板")
+        title_label = QLabel("📊 智言空间 - 网络舆情监控平台")
         title_label.setStyleSheet("""
             QLabel {
                 color: white;
@@ -114,8 +114,8 @@ class Dashboard(QMainWindow):
         
         # 搜索框
         search_input = QLineEdit()
-        search_input.setPlaceholderText("搜索...")
-        search_input.setFixedWidth(200)
+        search_input.setPlaceholderText("搜索舆情关键词...")
+        search_input.setFixedWidth(300)
         search_input.setStyleSheet("""
             QLineEdit {
                 background-color: #34495e;
@@ -224,7 +224,7 @@ class Dashboard(QMainWindow):
                 """
             
             btn.setStyleSheet(btn_style)
-            btn.clicked.connect(lambda checked, idx=index: self.switch_page(idx))
+            btn.clicked.connect(lambda checked=False, idx=index: self.switch_page(idx))
             self.nav_buttons.append(btn)
             layout.addWidget(btn)
         
@@ -337,45 +337,45 @@ class Dashboard(QMainWindow):
         # 定义卡片数据
         cards_data = [
             {
-                "title": "总用户数",
-                "value": "2,847",
-                "change": "+12.5%",
-                "icon": "👥",
+                "title": "舆情热度指数",
+                "value": "78.5",
+                "change": "+2.3%",
+                "icon": "📈",
                 "color": "#3498db"
             },
             {
-                "title": "活跃用户",
-                "value": "1,892",
-                "change": "+8.3%",
-                "icon": "🔥",
+                "title": "敏感信息检测",
+                "value": "125",
+                "change": "+15",
+                "icon": "⚠️",
                 "color": "#e74c3c"
             },
             {
-                "title": "订单数量",
-                "value": "5,623",
-                "change": "+15.2%",
-                "icon": "📦",
-                "color": "#2ecc71"
-            },
-            {
-                "title": "总收入",
-                "value": "$42,580",
-                "change": "+18.7%",
-                "icon": "💰",
+                "title": "虚假信息识别",
+                "value": "89",
+                "change": "+8",
+                "icon": "❌",
                 "color": "#f39c12"
             },
             {
-                "title": "转化率",
-                "value": "3.8%",
-                "change": "+0.4%",
-                "icon": "📈",
+                "title": "情感分析",
+                "value": "45%",
+                "change": "正面",
+                "icon": "😊",
+                "color": "#2ecc71"
+            },
+            {
+                "title": "风险预警",
+                "value": "12",
+                "change": "高风险",
+                "icon": "🚨",
                 "color": "#9b59b6"
             },
             {
-                "title": "满意度",
-                "value": "4.6/5.0",
-                "change": "+0.2",
-                "icon": "⭐",
+                "title": "处理效率",
+                "value": "98.5%",
+                "change": "+1.2%",
+                "icon": "⚡",
                 "color": "#1abc9c"
             }
         ]
@@ -391,7 +391,7 @@ class Dashboard(QMainWindow):
         """创建单个卡片"""
         card = QFrame()
         card.setFrameShape(QFrame.StyledPanel)
-        card.setStyleSheet(f"""
+        style_sheet = """
             QFrame {{
                 background-color: white;
                 border-radius: 10px;
@@ -399,10 +399,11 @@ class Dashboard(QMainWindow):
                 padding: 20px;
             }}
             QFrame:hover {{
-                border-color: {color};
+                border-color: {0};
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             }}
-        """)
+        """.format(color)
+        card.setStyleSheet(style_sheet)
         
         layout = QVBoxLayout(card)
         
@@ -440,7 +441,7 @@ class Dashboard(QMainWindow):
         else:
             change_label.setStyleSheet("color: #e74c3c; font-weight: bold;")
         
-        change_text = QLabel("相比上月")
+        change_text = QLabel("相比昨日")
         change_text.setStyleSheet("color: #95a5a6; font-size: 12px;")
         
         change_layout.addWidget(change_label)
@@ -823,7 +824,7 @@ class Dashboard(QMainWindow):
         # 区域标题
         section_header = QHBoxLayout()
         
-        section_title = QLabel("📋 数据明细")
+        section_title = QLabel("📋 舆情数据明细")
         section_title.setStyleSheet("font-size: 18px; font-weight: bold; color: #2c3e50;")
         
         section_header.addWidget(section_title)
@@ -861,7 +862,7 @@ class Dashboard(QMainWindow):
         
         # 数据表格
         table = QTableWidget(10, 6)
-        table.setHorizontalHeaderLabels(["ID", "用户", "产品", "金额", "日期", "状态"])
+        table.setHorizontalHeaderLabels(["ID", "关键词", "热度", "情感", "风险等级", "处理状态"])
         
         # 设置表格样式
         table.setStyleSheet("""
@@ -882,28 +883,40 @@ class Dashboard(QMainWindow):
         
         # 填充示例数据
         sample_data = [
-            ["1001", "张三", "产品A", "$125.00", "2023-10-15", "已完成"],
-            ["1002", "李四", "产品B", "$89.50", "2023-10-14", "进行中"],
-            ["1003", "王五", "产品C", "$245.00", "2023-10-13", "已完成"],
-            ["1004", "赵六", "产品A", "$125.00", "2023-10-12", "已取消"],
-            ["1005", "钱七", "产品B", "$89.50", "2023-10-11", "已完成"],
-            ["1006", "孙八", "产品D", "$320.00", "2023-10-10", "进行中"],
-            ["1007", "周九", "产品A", "$125.00", "2023-10-09", "已完成"],
-            ["1008", "吴十", "产品C", "$245.00", "2023-10-08", "已完成"],
-            ["1009", "郑十一", "产品B", "$89.50", "2023-10-07", "进行中"],
-            ["1010", "王十二", "产品D", "$320.00", "2023-10-06", "已完成"]
+            ["1001", "疫情", "95", "负面", "高风险", "已处理"],
+            ["1002", "经济", "88", "中性", "中风险", "处理中"],
+            ["1003", "教育", "75", "正面", "低风险", "已处理"],
+            ["1004", "科技", "92", "正面", "低风险", "已处理"],
+            ["1005", "医疗", "85", "负面", "中风险", "处理中"],
+            ["1006", "环境", "78", "中性", "低风险", "已处理"],
+            ["1007", "就业", "82", "负面", "中风险", "处理中"],
+            ["1008", "房价", "90", "负面", "高风险", "已处理"],
+            ["1009", "交通", "70", "中性", "低风险", "已处理"],
+            ["1010", "安全", "86", "正面", "低风险", "已处理"]
         ]
         
         for row, row_data in enumerate(sample_data):
             for col, cell_data in enumerate(row_data):
                 item = QTableWidgetItem(cell_data)
-                if col == 5:  # 状态列
-                    if cell_data == "已完成":
+                if col == 3:  # 情感列
+                    if cell_data == "正面":
                         item.setForeground(QColor("#2ecc71"))
-                    elif cell_data == "进行中":
-                        item.setForeground(QColor("#f39c12"))
-                    elif cell_data == "已取消":
+                    elif cell_data == "负面":
                         item.setForeground(QColor("#e74c3c"))
+                    else:
+                        item.setForeground(QColor("#f39c12"))
+                elif col == 4:  # 风险等级
+                    if cell_data == "高风险":
+                        item.setForeground(QColor("#e74c3c"))
+                    elif cell_data == "中风险":
+                        item.setForeground(QColor("#f39c12"))
+                    else:
+                        item.setForeground(QColor("#2ecc71"))
+                elif col == 5:  # 处理状态
+                    if cell_data == "已处理":
+                        item.setForeground(QColor("#2ecc71"))
+                    else:
+                        item.setForeground(QColor("#f39c12"))
                 table.setItem(row, col, item)
         
         # 设置表格属性
@@ -938,8 +951,8 @@ class Dashboard(QMainWindow):
         self.period_combo.setFixedWidth(120)
         
         self.report_type_combo = QComboBox()
-        self.report_type_combo.addItems(["销售报表", "用户报表", "订单报表", "库存报表"])
-        self.report_type_combo.setFixedWidth(120)
+        self.report_type_combo.addItems(["舆情热度报表", "情感分析报表", "风险预警报表", "处理效率报表"])
+        self.report_type_combo.setFixedWidth(150)
         
         generate_btn = QPushButton("生成报表")
         generate_btn.setStyleSheet("""
@@ -1048,37 +1061,37 @@ class Dashboard(QMainWindow):
         """)
         summary_layout = QHBoxLayout(summary_frame)
         
-        # 销售报表摘要
-        if report_type == "销售报表":
+        # 舆情热度报表摘要
+        if report_type == "舆情热度报表":
             summary_items = [
-                ("总销售额", "$125,480", "#3498db"),
-                ("订单数量", "1,245", "#2ecc71"),
-                ("平均客单价", "$100.8", "#f39c12"),
-                ("转化率", "4.2%", "#9b59b6")
+                ("最高热度", "95.8", "#3498db"),
+                ("平均热度", "78.5", "#2ecc71"),
+                ("热点数量", "125", "#f39c12"),
+                ("趋势变化", "+2.3%", "#9b59b6")
             ]
-        # 用户报表摘要
-        elif report_type == "用户报表":
+        # 情感分析报表摘要
+        elif report_type == "情感分析报表":
             summary_items = [
-                ("总用户数", "2,847", "#3498db"),
-                ("新增用户", "156", "#2ecc71"),
-                ("活跃用户", "1,892", "#f39c12"),
-                ("留存率", "66.5%", "#9b59b6")
+                ("正面情感", "45%", "#3498db"),
+                ("负面情感", "30%", "#e74c3c"),
+                ("中性情感", "25%", "#f39c12"),
+                ("情感趋势", "稳定", "#9b59b6")
             ]
-        # 订单报表摘要
-        elif report_type == "订单报表":
+        # 风险预警报表摘要
+        elif report_type == "风险预警报表":
             summary_items = [
-                ("总订单数", "5,623", "#3498db"),
-                ("已完成", "4,892", "#2ecc71"),
-                ("进行中", "543", "#f39c12"),
-                ("已取消", "188", "#9b59b6")
+                ("高风险", "12", "#e74c3c"),
+                ("中风险", "35", "#f39c12"),
+                ("低风险", "78", "#2ecc71"),
+                ("预警率", "4.7%", "#9b59b6")
             ]
-        # 库存报表
+        # 处理效率报表
         else:
             summary_items = [
-                ("总库存", "12,543", "#3498db"),
-                ("库存预警", "128", "#e74c3c"),
-                ("库存周转率", "3.2", "#f39c12"),
-                ("平均库存", "8,756", "#9b59b6")
+                ("处理率", "98.5%", "#3498db"),
+                ("平均处理时间", "2.3小时", "#2ecc71"),
+                ("处理完成", "125", "#f39c12"),
+                ("处理中", "15", "#9b59b6")
             ]
         
         for label, value, color in summary_items:
@@ -1133,73 +1146,73 @@ class Dashboard(QMainWindow):
         self.report_layout.addWidget(chart_frame)
         
         # 数据表格
-        if report_type == "销售报表":
+        if report_type == "舆情热度报表":
             self.report_table = QTableWidget(10, 4)
-            self.report_table.setHorizontalHeaderLabels(["日期", "销售额", "订单数", "转化率"])
+            self.report_table.setHorizontalHeaderLabels(["关键词", "热度值", "趋势", "处理状态"])
             
             # 填充示例数据
             sample_report = [
-                ["2023-10-01", "$12,500", "120", "3.8%"],
-                ["2023-10-02", "$13,200", "125", "4.1%"],
-                ["2023-10-03", "$11,800", "115", "3.6%"],
-                ["2023-10-04", "$14,500", "135", "4.3%"],
-                ["2023-10-05", "$12,900", "122", "3.9%"],
-                ["2023-10-06", "$13,800", "128", "4.0%"],
-                ["2023-10-07", "$15,200", "140", "4.5%"],
-                ["2023-10-08", "$14,100", "132", "4.2%"],
-                ["2023-10-09", "$12,700", "120", "3.8%"],
-                ["2023-10-10", "$13,500", "125", "4.0%"]
+                ["疫情", "95.8", "上升", "已处理"],
+                ["经济", "88.5", "稳定", "处理中"],
+                ["教育", "75.2", "下降", "已处理"],
+                ["科技", "92.3", "上升", "已处理"],
+                ["医疗", "85.7", "稳定", "处理中"],
+                ["环境", "78.9", "下降", "已处理"],
+                ["就业", "82.1", "上升", "处理中"],
+                ["房价", "90.4", "稳定", "已处理"],
+                ["交通", "70.5", "下降", "已处理"],
+                ["安全", "86.3", "上升", "已处理"]
             ]
-        elif report_type == "用户报表":
+        elif report_type == "情感分析报表":
             self.report_table = QTableWidget(10, 4)
-            self.report_table.setHorizontalHeaderLabels(["日期", "新增用户", "活跃用户", "留存率"])
+            self.report_table.setHorizontalHeaderLabels(["关键词", "正面", "负面", "中性"])
             
             # 填充示例数据
             sample_report = [
-                ["2023-10-01", "15", "1,245", "68.5%"],
-                ["2023-10-02", "18", "1,260", "69.2%"],
-                ["2023-10-03", "12", "1,230", "67.8%"],
-                ["2023-10-04", "20", "1,275", "70.1%"],
-                ["2023-10-05", "16", "1,255", "69.5%"],
-                ["2023-10-06", "14", "1,240", "68.8%"],
-                ["2023-10-07", "22", "1,280", "70.5%"],
-                ["2023-10-08", "17", "1,265", "69.8%"],
-                ["2023-10-09", "13", "1,235", "68.2%"],
-                ["2023-10-10", "19", "1,270", "70.0%"]
+                ["疫情", "35%", "55%", "10%"],
+                ["经济", "40%", "30%", "30%"],
+                ["教育", "60%", "20%", "20%"],
+                ["科技", "75%", "15%", "10%"],
+                ["医疗", "45%", "40%", "15%"],
+                ["环境", "50%", "30%", "20%"],
+                ["就业", "30%", "50%", "20%"],
+                ["房价", "25%", "65%", "10%"],
+                ["交通", "45%", "35%", "20%"],
+                ["安全", "65%", "20%", "15%"]
             ]
-        elif report_type == "订单报表":
+        elif report_type == "风险预警报表":
             self.report_table = QTableWidget(10, 4)
-            self.report_table.setHorizontalHeaderLabels(["日期", "订单数", "已完成", "已取消"])
+            self.report_table.setHorizontalHeaderLabels(["关键词", "风险等级", "预警时间", "处理状态"])
             
             # 填充示例数据
             sample_report = [
-                ["2023-10-01", "120", "105", "5"],
-                ["2023-10-02", "125", "110", "4"],
-                ["2023-10-03", "115", "100", "6"],
-                ["2023-10-04", "135", "120", "5"],
-                ["2023-10-05", "122", "108", "4"],
-                ["2023-10-06", "128", "115", "3"],
-                ["2023-10-07", "140", "125", "5"],
-                ["2023-10-08", "132", "118", "4"],
-                ["2023-10-09", "120", "105", "5"],
-                ["2023-10-10", "125", "110", "4"]
+                ["疫情", "高风险", "2023-10-15", "已处理"],
+                ["经济", "中风险", "2023-10-14", "处理中"],
+                ["教育", "低风险", "2023-10-13", "已处理"],
+                ["科技", "低风险", "2023-10-12", "已处理"],
+                ["医疗", "中风险", "2023-10-11", "处理中"],
+                ["环境", "低风险", "2023-10-10", "已处理"],
+                ["就业", "中风险", "2023-10-09", "处理中"],
+                ["房价", "高风险", "2023-10-08", "已处理"],
+                ["交通", "低风险", "2023-10-07", "已处理"],
+                ["安全", "低风险", "2023-10-06", "已处理"]
             ]
-        else:  # 库存报表
+        else:  # 处理效率报表
             self.report_table = QTableWidget(10, 4)
-            self.report_table.setHorizontalHeaderLabels(["产品", "库存数量", "库存状态", "最后更新"])
+            self.report_table.setHorizontalHeaderLabels(["关键词", "处理时间", "处理状态", "处理人员"])
             
             # 填充示例数据
             sample_report = [
-                ["产品A", "1,250", "正常", "2023-10-10"],
-                ["产品B", "850", "正常", "2023-10-10"],
-                ["产品C", "120", "预警", "2023-10-09"],
-                ["产品D", "3,200", "正常", "2023-10-10"],
-                ["产品E", "95", "预警", "2023-10-08"],
-                ["产品F", "2,100", "正常", "2023-10-10"],
-                ["产品G", "75", "预警", "2023-10-07"],
-                ["产品H", "1,500", "正常", "2023-10-10"],
-                ["产品I", "210", "正常", "2023-10-09"],
-                ["产品J", "150", "预警", "2023-10-08"]
+                ["疫情", "1.5小时", "已处理", "管理员"],
+                ["经济", "2.3小时", "处理中", "用户1"],
+                ["教育", "1.2小时", "已处理", "用户2"],
+                ["科技", "1.8小时", "已处理", "用户3"],
+                ["医疗", "2.5小时", "处理中", "用户4"],
+                ["环境", "1.0小时", "已处理", "用户5"],
+                ["就业", "2.0小时", "处理中", "用户6"],
+                ["房价", "1.7小时", "已处理", "用户7"],
+                ["交通", "0.9小时", "已处理", "用户8"],
+                ["安全", "1.3小时", "已处理", "用户9"]
             ]
         
         # 设置表格样式
@@ -1223,11 +1236,25 @@ class Dashboard(QMainWindow):
         for row, row_data in enumerate(sample_report):
             for col, cell_data in enumerate(row_data):
                 item = QTableWidgetItem(cell_data)
-                if report_type == "库存报表" and col == 2:
-                    if cell_data == "预警":
+                if report_type == "舆情热度报表" and col == 2:
+                    if cell_data == "上升":
+                        item.setForeground(QColor("#2ecc71"))
+                    elif cell_data == "下降":
                         item.setForeground(QColor("#e74c3c"))
                     else:
+                        item.setForeground(QColor("#f39c12"))
+                elif report_type == "风险预警报表" and col == 1:
+                    if cell_data == "高风险":
+                        item.setForeground(QColor("#e74c3c"))
+                    elif cell_data == "中风险":
+                        item.setForeground(QColor("#f39c12"))
+                    else:
                         item.setForeground(QColor("#2ecc71"))
+                elif (report_type == "舆情热度报表" or report_type == "风险预警报表" or report_type == "处理效率报表") and col == 3:
+                    if cell_data == "已处理":
+                        item.setForeground(QColor("#2ecc71"))
+                    else:
+                        item.setForeground(QColor("#f39c12"))
                 self.report_table.setItem(row, col, item)
         
         # 设置表格属性
@@ -1318,25 +1345,23 @@ class Dashboard(QMainWindow):
         page = QWidget()
         layout = QVBoxLayout(page)
         layout.setSpacing(15)
+        layout.setContentsMargins(0, 0, 0, 0)
         
         # 页面标题
         title = QLabel("⚙️ 系统设置")
         title.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50;")
         layout.addWidget(title)
         
-        # 设置容器
-        settings_container = QFrame()
-        settings_container.setFrameShape(QFrame.StyledPanel)
-        settings_container.setStyleSheet("""
-            QFrame {
-                background-color: white;
-                border-radius: 10px;
-                border: 1px solid #e0e0e0;
-                padding: 20px;
-            }
-        """)
+        # 滚动区域
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setStyleSheet("QScrollArea { border: none; }")
         
+        # 设置容器
+        settings_container = QWidget()
         settings_layout = QVBoxLayout(settings_container)
+        settings_layout.setSpacing(15)
+        settings_layout.setContentsMargins(0, 0, 0, 20)
         
         # 基本设置
         basic_group = QGroupBox("基本设置")
@@ -1344,10 +1369,11 @@ class Dashboard(QMainWindow):
             QGroupBox {
                 border: 1px solid #e0e0e0;
                 border-radius: 6px;
-                margin-top: 10px;
-                padding-top: 10px;
+                margin-top: 0;
+                padding: 15px;
                 font-weight: bold;
                 color: #2c3e50;
+                background-color: white;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
@@ -1398,9 +1424,10 @@ class Dashboard(QMainWindow):
                 border: 1px solid #e0e0e0;
                 border-radius: 6px;
                 margin-top: 15px;
-                padding-top: 10px;
+                padding: 15px;
                 font-weight: bold;
                 color: #2c3e50;
+                background-color: white;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
@@ -1411,369 +1438,105 @@ class Dashboard(QMainWindow):
         
         notification_layout = QVBoxLayout()
         
-        # 启用通知
-        enable_notification = QCheckBox("启用通知")
-        enable_notification.setChecked(True)
-        notification_layout.addWidget(enable_notification)
-        
         # 邮件通知
-        email_notification = QCheckBox("邮件通知")
+        email_notification = QCheckBox("启用邮件通知")
         email_notification.setChecked(True)
         notification_layout.addWidget(email_notification)
         
         # 短信通知
-        sms_notification = QCheckBox("短信通知")
+        sms_notification = QCheckBox("启用短信通知")
         sms_notification.setChecked(False)
         notification_layout.addWidget(sms_notification)
+        
+        # 系统通知
+        system_notification = QCheckBox("启用系统通知")
+        system_notification.setChecked(True)
+        notification_layout.addWidget(system_notification)
         
         notification_group.setLayout(notification_layout)
         settings_layout.addWidget(notification_group)
         
-        # 存储设置
-        storage_group = QGroupBox("存储设置")
-        storage_group.setStyleSheet("""
-            QGroupBox {
-                border: 1px solid #e0e0e0;
-                border-radius: 6px;
-                margin-top: 15px;
-                padding-top: 10px;
-                font-weight: bold;
-                color: #2c3e50;
-            }
-            QGroupBox::title {
-                subcontrol-origin: margin;
-                left: 10px;
-                padding: 0 5px 0 5px;
-            }
-        """)
-        
-        storage_layout = QVBoxLayout()
-        
-        # 数据存储路径
-        storage_path_layout = QHBoxLayout()
-        storage_path_label = QLabel("数据存储路径:")
-        storage_path_label.setFixedWidth(120)
-        storage_path_input = QLineEdit()
-        storage_path_input.setText("C:/ProgramData/MyApp")
-        storage_path_input.setStyleSheet("""
-            QLineEdit {
-                border: 1px solid #e0e0e0;
-                border-radius: 4px;
-                padding: 6px 12px;
-            }
-        """)
-        browse_btn = QPushButton("浏览")
-        browse_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #6c757d;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                padding: 6px 12px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #5a6268;
-            }
-        """)
-        storage_path_layout.addWidget(storage_path_label)
-        storage_path_layout.addWidget(storage_path_input)
-        storage_path_layout.addWidget(browse_btn)
-        storage_layout.addLayout(storage_path_layout)
-        
-        # 自动备份
-        auto_backup = QCheckBox("启用自动备份")
-        auto_backup.setChecked(True)
-        storage_layout.addWidget(auto_backup)
-        
-        # 备份频率
-        backup_frequency_layout = QHBoxLayout()
-        backup_frequency_label = QLabel("备份频率:")
-        backup_frequency_label.setFixedWidth(120)
-        backup_frequency_combo = QComboBox()
-        backup_frequency_combo.addItems(["每天", "每周", "每月"])
-        backup_frequency_layout.addWidget(backup_frequency_label)
-        backup_frequency_layout.addWidget(backup_frequency_combo)
-        storage_layout.addLayout(backup_frequency_layout)
-        
-        storage_group.setLayout(storage_layout)
-        settings_layout.addWidget(storage_group)
-        
-        # 按钮区域
-        button_layout = QHBoxLayout()
-        button_layout.setSpacing(10)
-        
+        # 保存按钮
         save_btn = QPushButton("保存设置")
         save_btn.setStyleSheet("""
             QPushButton {
-                background-color: #2ecc71;
+                background-color: #3498db;
                 color: white;
                 border: none;
                 border-radius: 4px;
                 padding: 10px 20px;
                 font-weight: bold;
+                margin-top: 20px;
             }
             QPushButton:hover {
-                background-color: #27ae60;
+                background-color: #2980b9;
             }
         """)
+        save_btn.clicked.connect(lambda: QMessageBox.information(self, "成功", "设置保存成功！"))
         
-        reset_btn = QPushButton("重置默认")
-        reset_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #f39c12;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                padding: 10px 20px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #e67e22;
-            }
-        """)
+        settings_layout.addWidget(save_btn)
         
-        cancel_btn = QPushButton("取消")
-        cancel_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #6c757d;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                padding: 10px 20px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #5a6268;
-            }
-        """)
-        
-        button_layout.addStretch()
-        button_layout.addWidget(save_btn)
-        button_layout.addWidget(reset_btn)
-        button_layout.addWidget(cancel_btn)
-        
-        settings_layout.addLayout(button_layout)
-        
-        layout.addWidget(settings_container, 1)
+        scroll_area.setWidget(settings_container)
+        layout.addWidget(scroll_area, 1)
         
         return page
-    
-    def setup_menu(self):
-        """设置菜单栏"""
-        menubar = self.menuBar()
-        
-        # 文件菜单
-        file_menu = menubar.addMenu("文件")
-        
-        new_action = QAction("新建项目", self)
-        file_menu.addAction(new_action)
-        
-        import_action = QAction("导入数据", self)
-        file_menu.addAction(import_action)
-        
-        export_action = QAction("导出报表", self)
-        file_menu.addAction(export_action)
-        
-        file_menu.addSeparator()
-        
-        exit_action = QAction("退出", self)
-        exit_action.triggered.connect(self.close)
-        file_menu.addAction(exit_action)
-        
-        # 视图菜单
-        view_menu = menubar.addMenu("视图")
-        
-        refresh_action = QAction("刷新数据", self)
-        view_menu.addAction(refresh_action)
-        
-        fullscreen_action = QAction("全屏模式", self)
-        view_menu.addAction(fullscreen_action)
-        
-        # 帮助菜单
-        help_menu = menubar.addMenu("帮助")
-        
-        docs_action = QAction("使用文档", self)
-        help_menu.addAction(docs_action)
-        
-        about_action = QAction("关于", self)
-        about_action.triggered.connect(self.show_about)
-        help_menu.addAction(about_action)
-    
-    def setup_toolbar(self):
-        """设置工具栏"""
-        toolbar = QToolBar("快速操作")
-        toolbar.setMovable(False)
-        self.addToolBar(toolbar)
-        
-        # 添加工具按钮
-        actions = [
-            ("刷新", "🔄"),
-            ("新增", "➕"),
-            ("编辑", "✏️"),
-            ("删除", "🗑️"),
-            ("打印", "🖨️"),
-            ("设置", "⚙️")
-        ]
-        
-        for text, icon in actions:
-            btn = QPushButton(f"{icon} {text}")
-            btn.setStyleSheet("""
-                QPushButton {
-                    background-color: white;
-                    color: #495057;
-                    border: 1px solid #dee2e6;
-                    border-radius: 6px;
-                    padding: 8px 12px;
-                    font-weight: bold;
-                }
-                QPushButton:hover {
-                    background-color: #f8f9fa;
-                    border-color: #adb5bd;
-                }
-            """)
-            toolbar.addWidget(btn)
-    
-    def setup_statusbar(self):
-        """设置状态栏"""
-        statusbar = QStatusBar()
-        self.setStatusBar(statusbar)
-        
-        # 状态消息
-        self.status_label = QLabel("系统就绪")
-        statusbar.addWidget(self.status_label)
-        
-        # 系统时间
-        self.time_label = QLabel()
-        statusbar.addPermanentWidget(self.time_label)
-        
-        # 版本信息
-        version_label = QLabel("v1.0.0")
-        statusbar.addPermanentWidget(version_label)
-    
-    def setup_timers(self):
-        """设置定时器"""
-        # 更新时间
-        self.update_time()
-        self.time_timer = QTimer()
-        self.time_timer.timeout.connect(self.update_time)
-        self.time_timer.start(1000)  # 每秒更新一次
-        
-        # 模拟数据更新
-        self.data_timer = QTimer()
-        self.data_timer.timeout.connect(self.simulate_data_update)
-        self.data_timer.start(5000)  # 每5秒模拟数据更新
-    
-    def update_time(self):
-        """更新时间显示"""
-        current_time = QDateTime.currentDateTime().toString("yyyy-MM-dd HH:mm:ss")
-        self.time_label.setText(f"🕒 {current_time}")
-    
-    def simulate_data_update(self):
-        """模拟数据更新"""
-        # 在实际应用中，这里会从数据库或API获取最新数据
-        self.status_label.setText("数据已更新")
-        
-        # 2秒后恢复状态
-        QTimer.singleShot(2000, lambda: self.status_label.setText("系统就绪"))
-    
-    def show_about(self):
-        """显示关于对话框"""
-        QMessageBox.about(
-            self,
-            "关于数据分析仪表板",
-            "现代化数据分析仪表板\n\n"
-            "这是一个使用 PySide6 开发的现代化仪表板界面示例。\n"
-            "展示了现代化的UI设计、数据可视化和管理功能。\n\n"
-            "主要功能：\n"
-            "• 实时数据监控\n"
-            "• 数据可视化展示\n"
-            "• 用户行为分析\n"
-            "• 系统状态监控\n\n"
-            "版本: 1.0.0\n"
-            "© 2023 数据分析团队"
-        )
     
     def create_security_center_page(self):
         """创建安全中心页面"""
         page = QWidget()
         layout = QVBoxLayout(page)
         layout.setSpacing(15)
+        layout.setContentsMargins(0, 0, 0, 0)
         
         # 页面标题
         title = QLabel("🛡️ 安全中心")
         title.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50;")
         layout.addWidget(title)
         
-        # 安全状态卡片
-        status_card = QFrame()
-        status_card.setFrameShape(QFrame.StyledPanel)
-        status_card.setStyleSheet("""
+        # 安全状态
+        security_status = QFrame()
+        security_status.setStyleSheet("""
             QFrame {
-                background-color: white;
-                border-radius: 10px;
-                border: 1px solid #e0e0e0;
-                padding: 20px;
+                background-color: #d4edda;
+                border: 1px solid #c3e6cb;
+                border-radius: 8px;
+                padding: 15px;
             }
         """)
         
-        status_layout = QVBoxLayout(status_card)
+        status_layout = QHBoxLayout(security_status)
+        status_icon = QLabel("✅")
+        status_icon.setStyleSheet("font-size: 24px;")
+        status_text = QLabel("系统安全状态良好，未检测到异常")
+        status_text.setStyleSheet("color: #155724; font-weight: bold;")
+        status_layout.addWidget(status_icon)
+        status_layout.addWidget(status_text)
+        status_layout.addStretch()
         
-        status_title = QLabel("安全状态")
-        status_title.setStyleSheet("font-size: 18px; font-weight: bold; color: #2c3e50; margin-bottom: 15px;")
-        status_layout.addWidget(status_title)
+        layout.addWidget(security_status)
         
-        status_items = [
-            ("系统安全", "安全", "#2ecc71"),
-            ("账户安全", "安全", "#2ecc71"),
-            ("网络安全", "安全", "#2ecc71"),
-            ("数据安全", "安全", "#2ecc71"),
-            ("防火墙", "已启用", "#2ecc71"),
-            ("病毒防护", "已启用", "#2ecc71")
-        ]
-        
-        for label, value, color in status_items:
-            item_layout = QHBoxLayout()
-            item_label = QLabel(label)
-            item_label.setStyleSheet("color: #7f8c8d; font-size: 14px;")
-            item_value = QLabel(value)
-            item_value.setStyleSheet(f"color: {color}; font-weight: bold;")
-            
-            item_layout.addWidget(item_label)
-            item_layout.addStretch()
-            item_layout.addWidget(item_value)
-            status_layout.addLayout(item_layout)
-        
-        layout.addWidget(status_card)
+        # 滚动区域
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setStyleSheet("QScrollArea { border: none; }")
         
         # 安全设置
-        security_settings = QFrame()
-        security_settings.setFrameShape(QFrame.StyledPanel)
-        security_settings.setStyleSheet("""
-            QFrame {
-                background-color: white;
-                border-radius: 10px;
-                border: 1px solid #e0e0e0;
-                padding: 20px;
-            }
-        """)
+        security_settings = QWidget()
+        security_layout = QVBoxLayout(security_settings)
+        security_layout.setSpacing(15)
+        security_layout.setContentsMargins(0, 0, 0, 20)
         
-        settings_layout = QVBoxLayout(security_settings)
-        
-        settings_title = QLabel("安全设置")
-        settings_title.setStyleSheet("font-size: 18px; font-weight: bold; color: #2c3e50; margin-bottom: 15px;")
-        settings_layout.addWidget(settings_title)
-        
-        # 密码策略
-        password_policy = QGroupBox("密码策略")
-        password_policy.setStyleSheet("""
+        # 密码设置
+        password_group = QGroupBox("密码设置")
+        password_group.setStyleSheet("""
             QGroupBox {
                 border: 1px solid #e0e0e0;
                 border-radius: 6px;
-                margin-top: 10px;
-                padding-top: 10px;
+                margin-top: 0;
+                padding: 15px;
                 font-weight: bold;
                 color: #2c3e50;
+                background-color: white;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
@@ -1784,47 +1547,35 @@ class Dashboard(QMainWindow):
         
         password_layout = QVBoxLayout()
         
-        # 密码长度
-        password_length_layout = QHBoxLayout()
-        password_length_label = QLabel("密码最小长度:")
-        password_length_label.setFixedWidth(120)
-        password_length_spin = QSpinBox()
-        password_length_spin.setMinimum(6)
-        password_length_spin.setMaximum(20)
-        password_length_spin.setValue(8)
-        password_length_layout.addWidget(password_length_label)
-        password_length_layout.addWidget(password_length_spin)
-        password_layout.addLayout(password_length_layout)
-        
-        # 密码复杂度
-        password_complexity = QCheckBox("要求包含大小写字母、数字和特殊字符")
-        password_complexity.setChecked(True)
-        password_layout.addWidget(password_complexity)
+        # 密码强度
+        password_strength = QCheckBox("启用密码强度检查")
+        password_strength.setChecked(True)
+        password_layout.addWidget(password_strength)
         
         # 密码过期
-        password_expiry_layout = QHBoxLayout()
-        password_expiry_label = QLabel("密码过期时间:")
-        password_expiry_label.setFixedWidth(120)
-        password_expiry_combo = QComboBox()
-        password_expiry_combo.addItems(["30天", "60天", "90天", "180天", "365天"])
-        password_expiry_combo.setCurrentIndex(2)  # 默认90天
-        password_expiry_layout.addWidget(password_expiry_label)
-        password_expiry_layout.addWidget(password_expiry_combo)
-        password_layout.addLayout(password_expiry_layout)
+        password_expiry = QCheckBox("启用密码过期")
+        password_expiry.setChecked(True)
+        password_layout.addWidget(password_expiry)
         
-        password_policy.setLayout(password_layout)
-        settings_layout.addWidget(password_policy)
+        # 登录尝试限制
+        login_attempts = QCheckBox("启用登录尝试限制")
+        login_attempts.setChecked(True)
+        password_layout.addWidget(login_attempts)
         
-        # 登录安全
-        login_security = QGroupBox("登录安全")
-        login_security.setStyleSheet("""
+        password_group.setLayout(password_layout)
+        security_layout.addWidget(password_group)
+        
+        # 访问控制
+        access_group = QGroupBox("访问控制")
+        access_group.setStyleSheet("""
             QGroupBox {
                 border: 1px solid #e0e0e0;
                 border-radius: 6px;
                 margin-top: 15px;
-                padding-top: 10px;
+                padding: 15px;
                 font-weight: bold;
                 color: #2c3e50;
+                background-color: white;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
@@ -1833,80 +1584,48 @@ class Dashboard(QMainWindow):
             }
         """)
         
-        login_layout = QVBoxLayout()
+        access_layout = QVBoxLayout()
         
-        # 登录失败限制
-        login_attempts_layout = QHBoxLayout()
-        login_attempts_label = QLabel("登录失败限制:")
-        login_attempts_label.setFixedWidth(120)
-        login_attempts_spin = QSpinBox()
-        login_attempts_spin.setMinimum(1)
-        login_attempts_spin.setMaximum(10)
-        login_attempts_spin.setValue(5)
-        login_attempts_layout.addWidget(login_attempts_label)
-        login_attempts_layout.addWidget(login_attempts_spin)
-        login_layout.addLayout(login_attempts_layout)
+        # IP白名单
+        ip_whitelist = QCheckBox("启用IP白名单")
+        ip_whitelist.setChecked(False)
+        access_layout.addWidget(ip_whitelist)
         
-        # 登录超时
-        login_timeout_layout = QHBoxLayout()
-        login_timeout_label = QLabel("登录超时:")
-        login_timeout_label.setFixedWidth(120)
-        login_timeout_combo = QComboBox()
-        login_timeout_combo.addItems(["15分钟", "30分钟", "1小时", "2小时", "4小时"])
-        login_timeout_combo.setCurrentIndex(2)  # 默认1小时
-        login_timeout_layout.addWidget(login_timeout_label)
-        login_timeout_layout.addWidget(login_timeout_combo)
-        login_layout.addLayout(login_timeout_layout)
+        # 两步验证
+        two_factor = QCheckBox("启用两步验证")
+        two_factor.setChecked(False)
+        access_layout.addWidget(two_factor)
         
-        # 双因素认证
-        two_factor_auth = QCheckBox("启用双因素认证")
-        two_factor_auth.setChecked(False)
-        login_layout.addWidget(two_factor_auth)
+        # 会话超时
+        session_timeout = QCheckBox("启用会话超时")
+        session_timeout.setChecked(True)
+        access_layout.addWidget(session_timeout)
         
-        login_security.setLayout(login_layout)
-        settings_layout.addWidget(login_security)
+        access_group.setLayout(access_layout)
+        security_layout.addWidget(access_group)
         
-        # 按钮区域
-        button_layout = QHBoxLayout()
-        button_layout.setSpacing(10)
-        
-        apply_btn = QPushButton("应用设置")
-        apply_btn.setStyleSheet("""
+        # 保存按钮
+        save_security_btn = QPushButton("保存安全设置")
+        save_security_btn.setStyleSheet("""
             QPushButton {
-                background-color: #2ecc71;
+                background-color: #3498db;
                 color: white;
                 border: none;
                 border-radius: 4px;
                 padding: 10px 20px;
                 font-weight: bold;
+                margin-top: 20px;
             }
             QPushButton:hover {
-                background-color: #27ae60;
+                background-color: #2980b9;
             }
         """)
+        save_security_btn.clicked.connect(lambda: QMessageBox.information(self, "成功", "安全设置保存成功！"))
         
-        cancel_btn = QPushButton("取消")
-        cancel_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #6c757d;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                padding: 10px 20px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #5a6268;
-            }
-        """)
+        security_layout.addWidget(save_security_btn)
         
-        button_layout.addStretch()
-        button_layout.addWidget(apply_btn)
-        button_layout.addWidget(cancel_btn)
-        
-        settings_layout.addLayout(button_layout)
-        
-        layout.addWidget(security_settings, 1)
+        scroll_area.setWidget(security_settings)
+        layout.addWidget(scroll_area, 1)
         
         return page
     
@@ -1924,11 +1643,11 @@ class Dashboard(QMainWindow):
         # 文档搜索
         search_bar = QWidget()
         search_layout = QHBoxLayout(search_bar)
-        search_layout.setSpacing(10)
         
-        self.search_input = QLineEdit()
-        self.search_input.setPlaceholderText("搜索文档...")
-        self.search_input.setStyleSheet("""
+        search_input = QLineEdit()
+        search_input.setPlaceholderText("搜索文档...")
+        search_input.setFixedWidth(300)
+        search_input.setStyleSheet("""
             QLineEdit {
                 background-color: white;
                 border: 1px solid #e0e0e0;
@@ -1955,17 +1674,31 @@ class Dashboard(QMainWindow):
                 background-color: #2980b9;
             }
         """)
-        search_btn.clicked.connect(self.search_documents)
         
-        search_layout.addWidget(self.search_input)
+        upload_btn = QPushButton("上传文档")
+        upload_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #2ecc71;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 8px 16px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #27ae60;
+            }
+        """)
+        
+        search_layout.addWidget(search_input)
         search_layout.addWidget(search_btn)
+        search_layout.addWidget(upload_btn)
         search_layout.addStretch()
         
         layout.addWidget(search_bar)
         
         # 文档分类
         categories = QFrame()
-        categories.setFrameShape(QFrame.StyledPanel)
         categories.setStyleSheet("""
             QFrame {
                 background-color: white;
@@ -1977,262 +1710,115 @@ class Dashboard(QMainWindow):
         
         categories_layout = QVBoxLayout(categories)
         
+        # 分类标题
         categories_title = QLabel("文档分类")
-        categories_title.setStyleSheet("font-size: 18px; font-weight: bold; color: #2c3e50; margin-bottom: 15px;")
+        categories_title.setStyleSheet("font-size: 16px; font-weight: bold; color: #2c3e50; margin-bottom: 15px;")
         categories_layout.addWidget(categories_title)
         
-        # 文档数据
-        self.documents = {
-            "使用指南": [
-                {"title": "系统入门", "desc": "了解系统的基本功能和操作", "content": "系统入门文档内容..."},
-                {"title": "用户注册", "desc": "如何注册和激活账号", "content": "用户注册文档内容..."},
-                {"title": "登录系统", "desc": "如何登录和退出系统", "content": "登录系统文档内容..."},
-                {"title": "个人设置", "desc": "如何修改个人信息和密码", "content": "个人设置文档内容..."}
-            ],
-            "管理员手册": [
-                {"title": "系统配置", "desc": "系统参数配置和管理", "content": "系统配置文档内容..."},
-                {"title": "用户管理", "desc": "如何管理系统用户", "content": "用户管理文档内容..."},
-                {"title": "权限设置", "desc": "如何设置用户权限", "content": "权限设置文档内容..."},
-                {"title": "系统监控", "desc": "系统运行状态监控", "content": "系统监控文档内容..."}
-            ],
-            "API文档": [
-                {"title": "API概述", "desc": "API接口总体说明", "content": "API概述文档内容..."},
-                {"title": "认证接口", "desc": "用户认证相关接口", "content": "认证接口文档内容..."},
-                {"title": "数据接口", "desc": "数据操作相关接口", "content": "数据接口文档内容..."},
-                {"title": "错误处理", "desc": "API错误码和处理方法", "content": "错误处理文档内容..."}
-            ],
-            "故障排除": [
-                {"title": "常见问题", "desc": "系统常见问题及解决方案", "content": "常见问题文档内容..."},
-                {"title": "错误提示", "desc": "系统错误提示及解决方法", "content": "错误提示文档内容..."},
-                {"title": "性能优化", "desc": "系统性能优化建议", "content": "性能优化文档内容..."},
-                {"title": "故障恢复", "desc": "系统故障恢复流程", "content": "故障恢复文档内容..."}
-            ],
-            "更新日志": [
-                {"title": "v1.0.0", "desc": "系统初始版本", "content": "v1.0.0更新日志..."},
-                {"title": "v1.0.1", "desc": "bug修复和性能优化", "content": "v1.0.1更新日志..."},
-                {"title": "v1.0.2", "desc": "新增功能和界面优化", "content": "v1.0.2更新日志..."},
-                {"title": "v1.1.0", "desc": "重大功能更新", "content": "v1.1.0更新日志..."}
-            ],
-            "最佳实践": [
-                {"title": "系统使用技巧", "desc": "系统使用的实用技巧", "content": "系统使用技巧文档内容..."},
-                {"title": "数据管理", "desc": "数据管理的最佳实践", "content": "数据管理文档内容..."},
-                {"title": "安全防护", "desc": "系统安全防护建议", "content": "安全防护文档内容..."},
-                {"title": "工作流程", "desc": "推荐的工作流程", "content": "工作流程文档内容..."}
-            ]
-        }
-        
-        doc_categories = [
-            ("📖 使用指南", "了解系统的基本使用方法"),
-            ("🛠️ 管理员手册", "系统管理和配置指南"),
-            ("📚 API文档", "开发接口和集成指南"),
-            ("🔧 故障排除", "常见问题和解决方案"),
-            ("📝 更新日志", "系统更新和版本说明"),
-            ("💡 最佳实践", "使用系统的最佳方法")
+        # 分类列表
+        category_items = [
+            ("用户指南", "12 个文档"),
+            ("API 文档", "8 个文档"),
+            ("系统文档", "5 个文档"),
+            ("培训资料", "7 个文档"),
+            ("常见问题", "15 个文档")
         ]
         
-        for full_title, desc in doc_categories:
-            icon = full_title.split(' ')[0]
-            title = full_title.split(' ')[1]
-            doc_item = QFrame()
-            doc_item.setStyleSheet("""
-                QFrame {
-                    background-color: #f8f9fa;
-                    border-radius: 8px;
-                    padding: 15px;
-                    margin-bottom: 10px;
-                }
-                QFrame:hover {
-                    background-color: #e9ecef;
-                }
-            """)
+        for category, count in category_items:
+            item_widget = QWidget()
+            item_layout = QHBoxLayout(item_widget)
+            item_layout.setSpacing(10)
             
-            doc_layout = QVBoxLayout(doc_item)
+            item_icon = QLabel("📄")
+            item_icon.setStyleSheet("font-size: 16px;")
             
-            doc_title = QLabel(f"{icon} {title}")
-            doc_title.setStyleSheet("font-size: 16px; font-weight: bold; color: #2c3e50; margin-bottom: 5px;")
-            doc_desc = QLabel(desc)
-            doc_desc.setStyleSheet("color: #6c757d; font-size: 14px;")
+            item_label = QLabel(category)
+            item_label.setStyleSheet("font-weight: bold; color: #2c3e50;")
             
-            doc_layout.addWidget(doc_title)
-            doc_layout.addWidget(doc_desc)
+            item_count = QLabel(count)
+            item_count.setStyleSheet("color: #7f8c8d;")
             
-            # 添加点击事件
-            doc_item.mousePressEvent = lambda event, t=title: self.show_documents(t)
+            item_layout.addWidget(item_icon)
+            item_layout.addWidget(item_label)
+            item_layout.addStretch()
+            item_layout.addWidget(item_count)
             
-            categories_layout.addWidget(doc_item)
+            categories_layout.addWidget(item_widget)
         
-        # 文档列表区域
-        self.doc_list_frame = QFrame()
-        self.doc_list_frame.setFrameShape(QFrame.StyledPanel)
-        self.doc_list_frame.setStyleSheet("""
+        layout.addWidget(categories)
+        
+        # 最近文档
+        recent_docs = QFrame()
+        recent_docs.setStyleSheet("""
             QFrame {
                 background-color: white;
                 border-radius: 10px;
                 border: 1px solid #e0e0e0;
                 padding: 20px;
-                margin-top: 15px;
             }
         """)
         
-        self.doc_list_layout = QVBoxLayout(self.doc_list_frame)
+        recent_layout = QVBoxLayout(recent_docs)
         
-        self.doc_list_title = QLabel("文档列表")
-        self.doc_list_title.setStyleSheet("font-size: 18px; font-weight: bold; color: #2c3e50; margin-bottom: 15px;")
-        self.doc_list_layout.addWidget(self.doc_list_title)
+        # 最近文档标题
+        recent_title = QLabel("最近文档")
+        recent_title.setStyleSheet("font-size: 16px; font-weight: bold; color: #2c3e50; margin-bottom: 15px;")
+        recent_layout.addWidget(recent_title)
         
-        # 默认显示使用指南文档
-        self.show_documents("使用指南")
+        # 最近文档列表
+        recent_items = [
+            ("用户操作手册.pdf", "2023-10-15", "2.5MB"),
+            ("API 接口文档.md", "2023-10-14", "1.2MB"),
+            ("系统架构设计.docx", "2023-10-13", "3.8MB"),
+            ("培训课程资料.pptx", "2023-10-12", "5.6MB")
+        ]
         
-        layout.addWidget(categories)
-        layout.addWidget(self.doc_list_frame)
+        for doc, date, size in recent_items:
+            item_widget = QWidget()
+            item_layout = QHBoxLayout(item_widget)
+            item_layout.setSpacing(10)
+            
+            item_icon = QLabel("📁")
+            item_icon.setStyleSheet("font-size: 16px;")
+            
+            item_info = QWidget()
+            info_layout = QVBoxLayout(item_info)
+            info_layout.setContentsMargins(0, 0, 0, 0)
+            
+            doc_label = QLabel(doc)
+            doc_label.setStyleSheet("font-weight: bold; color: #2c3e50;")
+            
+            doc_meta = QLabel(f"{date} • {size}")
+            doc_meta.setStyleSheet("font-size: 12px; color: #7f8c8d;")
+            
+            info_layout.addWidget(doc_label)
+            info_layout.addWidget(doc_meta)
+            
+            download_btn = QPushButton("下载")
+            download_btn.setStyleSheet("""
+                QPushButton {
+                    background-color: #3498db;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    padding: 4px 8px;
+                    font-size: 12px;
+                }
+                QPushButton:hover {
+                    background-color: #2980b9;
+                }
+            """)
+            
+            item_layout.addWidget(item_icon)
+            item_layout.addWidget(item_info)
+            item_layout.addStretch()
+            item_layout.addWidget(download_btn)
+            
+            recent_layout.addWidget(item_widget)
+        
+        layout.addWidget(recent_docs)
         
         return page
-    
-    def show_documents(self, category):
-        """显示指定分类的文档列表"""
-        # 清空当前文档列表
-        while self.doc_list_layout.count() > 1:  # 保留标题
-            item = self.doc_list_layout.takeAt(1)
-            if item.widget():
-                item.widget().deleteLater()
-        
-        # 更新标题
-        self.doc_list_title.setText(f"{category}文档")
-        
-        # 添加文档列表
-        if category in self.documents:
-            for doc in self.documents[category]:
-                doc_item = QFrame()
-                doc_item.setStyleSheet("""
-                    QFrame {
-                        background-color: #f8f9fa;
-                        border-radius: 8px;
-                        padding: 15px;
-                        margin-bottom: 10px;
-                    }
-                    QFrame:hover {
-                        background-color: #e9ecef;
-                    }
-                """)
-                
-                doc_layout = QVBoxLayout(doc_item)
-                
-                doc_title = QLabel(doc["title"])
-                doc_title.setStyleSheet("font-size: 14px; font-weight: bold; color: #2c3e50; margin-bottom: 5px;")
-                doc_desc = QLabel(doc["desc"])
-                doc_desc.setStyleSheet("color: #6c757d; font-size: 12px;")
-                
-                doc_layout.addWidget(doc_title)
-                doc_layout.addWidget(doc_desc)
-                
-                # 添加点击事件
-                doc_item.mousePressEvent = lambda event, d=doc: self.show_document_content(d)
-                
-                self.doc_list_layout.addWidget(doc_item)
-        
-        # 显示成功消息
-        if hasattr(self, 'status_label'):
-            self.status_label.setText(f"显示{category}文档")
-            QTimer.singleShot(2000, lambda: self.status_label.setText("系统就绪"))
-    
-    def show_document_content(self, doc):
-        """显示文档内容"""
-        from PySide6.QtWidgets import QDialog, QVBoxLayout, QTextEdit, QDialogButtonBox
-        
-        dialog = QDialog(self)
-        dialog.setWindowTitle(doc["title"])
-        dialog.setGeometry(400, 200, 800, 600)
-        
-        layout = QVBoxLayout(dialog)
-        
-        # 文档内容
-        content_edit = QTextEdit()
-        content_edit.setPlainText(doc["content"])
-        content_edit.setReadOnly(True)
-        content_edit.setStyleSheet("""
-            QTextEdit {
-                background-color: #f8f9fa;
-                border: 1px solid #e0e0e0;
-                border-radius: 4px;
-                padding: 15px;
-                font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
-                font-size: 14px;
-                line-height: 1.5;
-            }
-        """)
-        layout.addWidget(content_edit)
-        
-        # 按钮
-        buttons = QDialogButtonBox(QDialogButtonBox.Ok)
-        buttons.accepted.connect(dialog.accept)
-        layout.addWidget(buttons)
-        
-        dialog.exec()
-    
-    def search_documents(self):
-        """搜索文档"""
-        keyword = self.search_input.text().strip()
-        
-        if not keyword:
-            QMessageBox.warning(self, "提示", "请输入搜索关键词")
-            return
-        
-        # 清空当前文档列表
-        while self.doc_list_layout.count() > 1:  # 保留标题
-            item = self.doc_list_layout.takeAt(1)
-            if item.widget():
-                item.widget().deleteLater()
-        
-        # 更新标题
-        self.doc_list_title.setText(f"搜索结果: {keyword}")
-        
-        # 搜索文档
-        results = []
-        for category, docs in self.documents.items():
-            for doc in docs:
-                if keyword.lower() in doc["title"].lower() or keyword.lower() in doc["desc"].lower() or keyword.lower() in doc["content"].lower():
-                    results.append((category, doc))
-        
-        # 显示搜索结果
-        if results:
-            for category, doc in results:
-                doc_item = QFrame()
-                doc_item.setStyleSheet("""
-                    QFrame {
-                        background-color: #f8f9fa;
-                        border-radius: 8px;
-                        padding: 15px;
-                        margin-bottom: 10px;
-                    }
-                    QFrame:hover {
-                        background-color: #e9ecef;
-                    }
-                """)
-                
-                doc_layout = QVBoxLayout(doc_item)
-                
-                doc_title = QLabel(f"{category} - {doc['title']}")
-                doc_title.setStyleSheet("font-size: 14px; font-weight: bold; color: #2c3e50; margin-bottom: 5px;")
-                doc_desc = QLabel(doc["desc"])
-                doc_desc.setStyleSheet("color: #6c757d; font-size: 12px;")
-                
-                doc_layout.addWidget(doc_title)
-                doc_layout.addWidget(doc_desc)
-                
-                # 添加点击事件
-                doc_item.mousePressEvent = lambda event, d=doc: self.show_document_content(d)
-                
-                self.doc_list_layout.addWidget(doc_item)
-        else:
-            # 没有找到结果
-            no_result = QLabel("未找到相关文档")
-            no_result.setStyleSheet("font-size: 14px; color: #6c757d; text-align: center; padding: 20px;")
-            self.doc_list_layout.addWidget(no_result)
-        
-        # 显示成功消息
-        if hasattr(self, 'status_label'):
-            self.status_label.setText(f"搜索完成，找到 {len(results)} 个结果")
-            QTimer.singleShot(2000, lambda: self.status_label.setText("系统就绪"))
     
     def create_help_support_page(self):
         """创建帮助支持页面"""
@@ -2245,63 +1831,9 @@ class Dashboard(QMainWindow):
         title.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50;")
         layout.addWidget(title)
         
-        # 帮助卡片
-        help_card = QFrame()
-        help_card.setFrameShape(QFrame.StyledPanel)
-        help_card.setStyleSheet("""
-            QFrame {
-                background-color: white;
-                border-radius: 10px;
-                border: 1px solid #e0e0e0;
-                padding: 20px;
-            }
-        """)
-        
-        help_layout = QVBoxLayout(help_card)
-        
-        help_title = QLabel("获取帮助")
-        help_title.setStyleSheet("font-size: 18px; font-weight: bold; color: #2c3e50; margin-bottom: 15px;")
-        help_layout.addWidget(help_title)
-        
-        help_options = [
-            ("📞 联系客服", "工作时间: 周一至周五 9:00-18:00", "400-123-4567"),
-            ("📧 发送邮件", "support@example.com", "点击发送邮件"),
-            ("💬 在线聊天", "实时客服支持", "立即聊天"),
-            ("📅 预约支持", "安排一对一支持会话", "预约时间")
-        ]
-        
-        for icon, title, action in help_options:
-            option_frame = QFrame()
-            option_frame.setStyleSheet("""
-                QFrame {
-                    background-color: #f8f9fa;
-                    border-radius: 8px;
-                    padding: 15px;
-                    margin-bottom: 10px;
-                }
-                QFrame:hover {
-                    background-color: #e9ecef;
-                }
-            """)
-            
-            option_layout = QVBoxLayout(option_frame)
-            
-            option_title = QLabel(f"{icon} {title}")
-            option_title.setStyleSheet("font-size: 16px; font-weight: bold; color: #2c3e50; margin-bottom: 5px;")
-            option_action = QLabel(action)
-            option_action.setStyleSheet("color: #3498db; font-size: 14px; text-decoration: underline;")
-            
-            option_layout.addWidget(option_title)
-            option_layout.addWidget(option_action)
-            
-            help_layout.addWidget(option_frame)
-        
-        layout.addWidget(help_card)
-        
         # 常见问题
-        faq_card = QFrame()
-        faq_card.setFrameShape(QFrame.StyledPanel)
-        faq_card.setStyleSheet("""
+        faq_section = QFrame()
+        faq_section.setStyleSheet("""
             QFrame {
                 background-color: white;
                 border-radius: 10px;
@@ -2310,63 +1842,269 @@ class Dashboard(QMainWindow):
             }
         """)
         
-        faq_layout = QVBoxLayout(faq_card)
+        faq_layout = QVBoxLayout(faq_section)
         
+        # 常见问题标题
         faq_title = QLabel("常见问题")
-        faq_title.setStyleSheet("font-size: 18px; font-weight: bold; color: #2c3e50; margin-bottom: 15px;")
+        faq_title.setStyleSheet("font-size: 16px; font-weight: bold; color: #2c3e50; margin-bottom: 15px;")
         faq_layout.addWidget(faq_title)
         
+        # 常见问题列表
         faq_items = [
-            "如何重置密码？",
             "如何添加新用户？",
-            "如何导出数据报表？",
-            "如何修改系统设置？",
-            "如何启用双因素认证？",
-            "如何备份数据？"
+            "如何生成数据报表？",
+            "如何设置系统通知？",
+            "如何上传文档？",
+            "如何导出数据？",
+            "如何重置密码？",
+            "如何查看系统日志？",
+            "如何配置安全设置？"
         ]
         
         for question in faq_items:
             faq_item = QPushButton(question)
             faq_item.setStyleSheet("""
                 QPushButton {
-                    background-color: #f8f9fa;
+                    background-color: transparent;
                     color: #2c3e50;
-                    border: none;
-                    border-radius: 6px;
-                    padding: 12px 16px;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 4px;
+                    padding: 10px 15px;
                     text-align: left;
-                    font-size: 14px;
+                    font-weight: bold;
                     margin-bottom: 8px;
                 }
                 QPushButton:hover {
-                    background-color: #e9ecef;
+                    background-color: #f5f5f5;
                 }
             """)
+            faq_item.clicked.connect(lambda checked, q=question: QMessageBox.information(self, "问题", f"这是关于 '{q}' 的答案。"))
             faq_layout.addWidget(faq_item)
         
-        layout.addWidget(faq_card, 1)
+        layout.addWidget(faq_section)
+        
+        # 联系支持
+        support_section = QFrame()
+        support_section.setStyleSheet("""
+            QFrame {
+                background-color: white;
+                border-radius: 10px;
+                border: 1px solid #e0e0e0;
+                padding: 20px;
+            }
+        """)
+        
+        support_layout = QVBoxLayout(support_section)
+        
+        # 联系支持标题
+        support_title = QLabel("联系支持")
+        support_title.setStyleSheet("font-size: 16px; font-weight: bold; color: #2c3e50; margin-bottom: 15px;")
+        support_layout.addWidget(support_title)
+        
+        # 联系方式
+        contact_info = QWidget()
+        contact_layout = QVBoxLayout(contact_info)
+        
+        contact_items = [
+            ("📧 邮箱", "support@example.com"),
+            ("📞 电话", "400-123-4567"),
+            ("💬 在线客服", "工作时间: 9:00-18:00"),
+            ("🌐 帮助中心", "https://help.example.com")
+        ]
+        
+        for icon, info in contact_items:
+            contact_item = QLabel(f"{icon} {info}")
+            contact_item.setStyleSheet("font-size: 14px; color: #2c3e50; margin-bottom: 8px;")
+            contact_layout.addWidget(contact_item)
+        
+        support_layout.addWidget(contact_info)
+        
+        # 提交问题按钮
+        submit_btn = QPushButton("提交问题")
+        submit_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #3498db;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 10px 20px;
+                font-weight: bold;
+                margin-top: 15px;
+            }
+            QPushButton:hover {
+                background-color: #2980b9;
+            }
+        """)
+        submit_btn.clicked.connect(self.submit_issue)
+        
+        support_layout.addWidget(submit_btn)
+        
+        layout.addWidget(support_section)
         
         return page
-
-
-def main():
-    """主函数"""
-    app = QApplication(sys.argv)
     
-    # 设置应用程序样式
-    app.setStyle("Fusion")
+    def submit_issue(self):
+        """提交问题"""
+        from PySide6.QtWidgets import QDialog, QTextEdit, QPushButton, QVBoxLayout, QLabel
+        
+        dialog = QDialog(self)
+        dialog.setWindowTitle("提交问题")
+        dialog.setGeometry(400, 300, 500, 400)
+        
+        layout = QVBoxLayout(dialog)
+        
+        # 问题标题
+        title_label = QLabel("问题标题:")
+        title_input = QLineEdit()
+        title_input.setPlaceholderText("请输入问题标题")
+        layout.addWidget(title_label)
+        layout.addWidget(title_input)
+        
+        # 问题描述
+        desc_label = QLabel("问题描述:")
+        desc_input = QTextEdit()
+        desc_input.setPlaceholderText("请详细描述您遇到的问题...")
+        desc_input.setFixedHeight(200)
+        layout.addWidget(desc_label)
+        layout.addWidget(desc_input)
+        
+        # 联系方式
+        contact_label = QLabel("联系方式:")
+        contact_input = QLineEdit()
+        contact_input.setPlaceholderText("请留下您的邮箱或电话")
+        layout.addWidget(contact_label)
+        layout.addWidget(contact_input)
+        
+        # 提交按钮
+        submit_btn = QPushButton("提交")
+        submit_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #3498db;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 10px 20px;
+                font-weight: bold;
+                margin-top: 15px;
+            }
+            QPushButton:hover {
+                background-color: #2980b9;
+            }
+        """)
+        submit_btn.clicked.connect(dialog.accept)
+        layout.addWidget(submit_btn)
+        
+        if dialog.exec() == dialog.Accepted:
+            QMessageBox.information(self, "成功", "问题提交成功！我们会尽快处理您的问题。")
     
-    # 设置应用程序字体
-    font = QFont("Segoe UI", 10)
-    app.setFont(font)
+    def setup_menu(self):
+        """设置菜单栏"""
+        menubar = self.menuBar()
+        
+        # 文件菜单
+        file_menu = menubar.addMenu("文件")
+        
+        file_actions = [
+            ("新建", "Ctrl+N"),
+            ("打开", "Ctrl+O"),
+            ("保存", "Ctrl+S"),
+            ("导出", "Ctrl+E"),
+            ("退出", "Ctrl+Q")
+        ]
+        
+        for text, shortcut in file_actions:
+            action = QAction(text, self)
+            if shortcut:
+                action.setShortcut(shortcut)
+            if text == "退出":
+                action.triggered.connect(self.close)
+            file_menu.addAction(action)
+        
+        # 工具菜单
+        tools_menu = menubar.addMenu("工具")
+        
+        tool_actions = [
+            "数据导入",
+            "数据导出",
+            "系统备份",
+            "系统恢复"
+        ]
+        
+        for text in tool_actions:
+            action = QAction(text, self)
+            tools_menu.addAction(action)
+        
+        # 视图菜单
+        view_menu = menubar.addMenu("视图")
+        
+        view_actions = [
+            "刷新",
+            "重置视图",
+            "全屏"
+        ]
+        
+        for text in view_actions:
+            action = QAction(text, self)
+            view_menu.addAction(action)
+        
+        # 帮助菜单
+        help_menu = menubar.addMenu("帮助")
+        
+        help_action = QAction("关于", self)
+        help_action.triggered.connect(self.show_about)
+        help_menu.addAction(help_action)
     
-    # 创建并显示主窗口
-    window = Dashboard()
-    window.show()
+    def setup_toolbar(self):
+        """设置工具栏"""
+        toolbar = QToolBar("工具栏")
+        toolbar.setMovable(False)
+        self.addToolBar(toolbar)
+        
+        tools = ["新建", "打开", "保存", "分析", "帮助"]
+        
+        for text in tools:
+            action = QAction(text, self)
+            toolbar.addAction(action)
     
-    # 运行应用程序
-    sys.exit(app.exec())
+    def setup_statusbar(self):
+        """设置状态栏"""
+        statusbar = QStatusBar()
+        self.setStatusBar(statusbar)
+        
+        # 状态标签
+        self.status_label = QLabel("系统就绪")
+        statusbar.addWidget(self.status_label)
+        
+        # 系统时间
+        self.time_label = QLabel()
+        statusbar.addPermanentWidget(self.time_label)
+        
+        # 版本信息
+        version_label = QLabel("版本 1.0.0")
+        statusbar.addPermanentWidget(version_label)
+    
+    def setup_timers(self):
+        """设置定时器"""
+        # 系统时间更新定时器
+        self.time_timer = QTimer(self)
+        self.time_timer.timeout.connect(self.update_time)
+        self.time_timer.start(1000)  # 每秒更新一次
+        
+        # 初始化时间
+        self.update_time()
+    
+    def update_time(self):
+        """更新系统时间"""
+        current_time = QDateTime.currentDateTime().toString("yyyy-MM-dd HH:mm:ss")
+        self.time_label.setText(current_time)
+    
+    def show_about(self):
+        """显示关于对话框"""
+        QMessageBox.about(self, "关于", "智言空间 - 网络舆情监控平台\n版本: 1.0.0\n\n基于 PySide6 开发的现代化仪表板系统\n用于网络舆情监控和分析")
 
 
 if __name__ == "__main__":
-    main()
+    app = QApplication(sys.argv)
+    window = Dashboard()
+    window.show()
+    sys.exit(app.exec())

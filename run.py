@@ -197,7 +197,7 @@ class Launcher(QMainWindow):
                 background-color: {self.darken_color(interface['color'])};
             }}
         """)
-        run_btn.clicked.connect(lambda checked, f=interface["file"]: self.run_interface(f))
+        run_btn.clicked.connect(lambda checked=False, f=interface["file"]: self.run_interface(f))
         
         header_layout.addWidget(title_label)
         header_layout.addWidget(run_btn)

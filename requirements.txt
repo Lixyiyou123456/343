@@ -1,11 +1,20 @@
-# PySide6 UI 界面开发依赖
-PySide6>=6.5.0
+# 网络舆情智能处理平台依赖
 
-# 可选：如果需要数据可视化
-# matplotlib>=3.7.0
-# pandas>=2.0.0
-# numpy>=1.24.0
+# PySide6 界面库
+PySide6==6.6.0
 
-# 开发工具
-# black>=23.0.0
-# flake8>=6.0.0
+# 基础库
+numpy==1.26.4
+pandas==2.2.2
+
+# 文本处理
+nltk==3.8.1
+jieba==0.42.1
+
+# 数据可视化
+matplotlib==3.8.4
+seaborn==0.13.2
+
+# 其他
+requests==2.31.0
+beautifulsoup4==4.12.3
